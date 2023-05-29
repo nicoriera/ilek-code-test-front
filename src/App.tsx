@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const [questions, setQuestions]: [any, any] = useState();
+  const [questions, setQuestions] = useState<any>();
 
   useEffect(() => {
     fetch("/environment_questions")
