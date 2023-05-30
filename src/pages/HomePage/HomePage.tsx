@@ -7,6 +7,10 @@ const HomePage = () => {
       <Link to="/environment-survey">
         Teste tes connaissances sur l'environnement
       </Link>
+      <br />
+      <Link to="/environment-action-survey">
+        Teste tes connaissances sur les gestes éco-responsables
+      </Link>
     </div>
   );
 };
