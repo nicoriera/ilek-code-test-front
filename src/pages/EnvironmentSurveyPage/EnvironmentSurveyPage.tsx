@@ -1,6 +1,6 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import QuestionComponent from "../../components/QuestionComponent/QuestionComponent";
 
 type Question = {
   id: number;
@@ -21,9 +21,9 @@ const EnvironmentSurveyPage = () => {
   useEffect(() => {
     fetch("/environment_questions")
       .then((response) => response.json())
-      .then((data) => setQuestions(data));
-    console.log(questions);
-  });
+      .then((data) => setQuestions(data))
+      .catch((error) => console.error(error));
+  }, []);
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
@@ -54,36 +54,13 @@ const EnvironmentSurveyPage = () => {
           <form onSubmit={handleSubmit}>
             <ol>
               {questions.map((question: Question) => (
-                <li key={question.id}>
-                  <h2>{question.question}</h2>
-                  <label>
-                    <input
-                      type="radio"
-                      name="q1"
-                      value="1"
-                      onChange={() => handleAnswerChange("q1", "1")}
-                    />
-                    {question.answers[0].answer}
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="q2"
-                      value="2"
-                      onChange={() => handleAnswerChange("q2", "2")}
-                    />
-                    {question.answers[1].answer}
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="q3"
-                      value="3"
-                      onChange={() => handleAnswerChange("q3", "3")}
-                    />
-                    {question.answers[2].answer}
-                  </label>
-                </li>
+                <QuestionComponent
+                  key={question.id}
+                  question={question}
+                  onChange={(answer: string) =>
+                    handleAnswerChange(`question-${question.id}`, answer)
+                  }
+                />
               ))}
             </ol>
             <button type="submit">Soumettre</button>
@@ -98,7 +75,8 @@ const EnvironmentSurveyPage = () => {
           </li>
           <li>
             <Link to="/environment-action-survey">
-              Teste tes connaissances sur les gestes éco-responsables
+              Passe un autre quiz pour découvrir comment tu peux aider à
+              protéger l'environnement
             </Link>
           </li>
         </ul>
