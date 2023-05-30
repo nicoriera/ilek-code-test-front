@@ -1,20 +1,16 @@
-import { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage/HomePage";
+import EnvironmentSurveyPage from "./pages/EnvironmentSurveyPage/EnvironmentSurveyPage";
 import "./App.css";
 
 function App() {
-  const [questions, setQuestions] = useState<any>();
-
-  useEffect(() => {
-    fetch("/environment_questions")
-      .then((response) => response.json())
-      .then((data) => setQuestions(data));
-  }, []);
-
   return (
-    <div className="App">
-      <h1>Teste tes connaissances</h1>
-      <p>{JSON.stringify(questions)}</p>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/environment-survey" element={<EnvironmentSurveyPage />} />
+      </Routes>
+    </Router>
   );
 }
 
