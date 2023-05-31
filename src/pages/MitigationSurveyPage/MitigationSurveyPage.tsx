@@ -13,10 +13,10 @@ type Answer = {
   answer: string;
 };
 
-const EnvironmentHelpSurveyPage = () => {
+const MitigationSurveyPage = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [score, setScore] = useState<number | null>(null); // null = pas de score
-  const [answers, setAnswers] = useState<Answer[]>([]); // [] = pas de réponses
+  const [score, setScore] = useState<number>(0); // null = pas de score
+  const [answers, setAnswers] = useState<Record<string, string>>({}); // [] = pas de réponses
 
   useEffect(() => {
     fetch("/mitigation_questions")
@@ -39,10 +39,10 @@ const EnvironmentHelpSurveyPage = () => {
       .catch((error) => console.error(error));
   };
 
-  const handleAnswerChange = (questionId: string, answer: string) => {
-    setAnswers((prevAnswars) => ({
-      ...prevAnswars,
-      [questionId]: answer,
+  const handleAnswerChange = (questionId: number, answer: string) => {
+    setAnswers((prevAnswers: Record<string, string>) => ({
+      ...prevAnswers,
+      [`question-${questionId}`]: answer,
     }));
   };
 
@@ -60,7 +60,7 @@ const EnvironmentHelpSurveyPage = () => {
                   key={question.id}
                   question={question}
                   onChange={(answer: string) =>
-                    handleAnswerChange(`question-${question.id}`, answer)
+                    handleAnswerChange(question.id, answer)
                   }
                 />
               ))}
@@ -73,7 +73,9 @@ const EnvironmentHelpSurveyPage = () => {
       <div>
         <ul>
           <li>
-            <Link to="/">Retour à l'accueil</Link>
+            <Link to="/">
+              Retour au test de connaissances sur l'environnement
+            </Link>
           </li>
         </ul>
       </div>
@@ -81,4 +83,4 @@ const EnvironmentHelpSurveyPage = () => {
   );
 };
 
-export default EnvironmentHelpSurveyPage;
+export default MitigationSurveyPage;
