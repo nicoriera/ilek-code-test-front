@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import QuestionComponent from "../../components/QuestionComponent/QuestionComponent";
+import ButtonSubmitComponent from "../../components/ButtonSubmitComponent/ButtonSubmitComponent";
 
 type Question = {
   id: number;
@@ -64,7 +65,7 @@ const EnvironmentSurveyPage = () => {
               ))}
             </ol>
 
-            <button type="submit">Soumettre</button>
+            <ButtonSubmitComponent />
           </form>
           {score !== null && <p> Tu as obtenu {score} points</p>}
         </div>
