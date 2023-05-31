@@ -16,10 +16,7 @@ type QuestionComponentProps = {
   onChange: (answer: string) => void;
 };
 
-const QuestionComponent: React.FC<QuestionComponentProps> = ({
-  question,
-  onChange,
-}) => {
+const QuestionComponent = ({ question, onChange }: QuestionComponentProps) => {
   return (
     <li>
       <h2>{question.question}</h2>
@@ -28,7 +25,7 @@ const QuestionComponent: React.FC<QuestionComponentProps> = ({
           <input
             type="radio"
             name={`question-${question.id}`}
-            value={answer.id.toString()}
+            value={answer.id}
             onChange={() => onChange(answer.id.toString())}
           />
           {answer.answer}

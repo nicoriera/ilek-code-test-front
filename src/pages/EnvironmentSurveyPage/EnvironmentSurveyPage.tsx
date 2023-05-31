@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import QuestionComponent from "../../components/QuestionComponent/QuestionComponent";
 
@@ -15,8 +15,8 @@ type Answer = {
 
 const EnvironmentSurveyPage = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [score, setScore] = useState<number | null>(null); // null = pas de score
-  const [answers, setAnswers] = useState<Answer[]>([]); // [] = pas de réponses
+  const [score, setScore] = useState<number>(0); // null = pas de score
+  const [answers, setAnswers] = useState<Record<string, string>>({}); // [] = pas de réponses
 
   useEffect(() => {
     fetch("/environment_questions")
@@ -25,7 +25,7 @@ const EnvironmentSurveyPage = () => {
       .catch((error) => console.error(error));
   }, []);
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     fetch("/environment_answers", {
       method: "POST",
@@ -39,10 +39,10 @@ const EnvironmentSurveyPage = () => {
       .catch((error) => console.error(error));
   };
 
-  const handleAnswerChange = (questionId: string, answer: string) => {
-    setAnswers((prevAnswars) => ({
-      ...prevAnswars,
-      [questionId]: answer,
+  const handleAnswerChange = (questionId: number, answer: string) => {
+    setAnswers((prevAnswers: Record<string, string>) => ({
+      ...prevAnswers,
+      [`question-${questionId}`]: answer,
     }));
   };
 
@@ -58,11 +58,12 @@ const EnvironmentSurveyPage = () => {
                   key={question.id}
                   question={question}
                   onChange={(answer: string) =>
-                    handleAnswerChange(`question-${question.id}`, answer)
+                    handleAnswerChange(question.id, answer)
                   }
                 />
               ))}
             </ol>
+
             <button type="submit">Soumettre</button>
           </form>
           {score !== null && <p> Tu as obtenu {score} points</p>}
@@ -71,10 +72,7 @@ const EnvironmentSurveyPage = () => {
       <div>
         <ul>
           <li>
-            <Link to="/">Retour à l'accueil</Link>
-          </li>
-          <li>
-            <Link to="/environment-action-survey">
+            <Link to="/mitigation-survey">
               Passe un autre quiz pour découvrir comment tu peux aider à
               protéger l'environnement
             </Link>
