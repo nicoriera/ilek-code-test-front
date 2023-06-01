@@ -30,8 +30,8 @@ const SurveyPageComponent = ({
   textLink,
 }: SurveyPageProps) => {
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [score, setScore] = useState<number>(0); // null = pas de score
-  const [answers, setAnswers] = useState<Record<string, string>>({}); // [] = pas de réponses
+  const [score, setScore] = useState<number | null>(null);
+  const [answers, setAnswers] = useState<Record<string, string>>({});
 
   useEffect(() => {
     fetch(questionsEndpoint)
@@ -62,8 +62,8 @@ const SurveyPageComponent = ({
   };
 
   return (
-    <>
-      <div className="App">
+    <div className="container-test">
+      <div>
         <div>
           <h1>{pageTitle}</h1>
           <form onSubmit={handleSubmit}>
@@ -78,10 +78,13 @@ const SurveyPageComponent = ({
                 />
               ))}
             </ol>
-
-            <ButtonSubmitComponent />
+            <div className="button-show-score">
+              <ButtonSubmitComponent />
+              <div className="score">
+                {score !== null && <p> Tu as obtenu {score} points</p>}
+              </div>
+            </div>
           </form>
-          {score !== null && <p> Tu as obtenu {score} points</p>}
         </div>
       </div>
       <div>
@@ -91,7 +94,7 @@ const SurveyPageComponent = ({
           </li>
         </ul>
       </div>
-    </>
+    </div>
   );
 };
 
